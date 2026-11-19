@@ -38,7 +38,24 @@
 
 
   <%# movies %>
-  <div class="md:col-span-7">
+  <div class="md:col-span-7 px-3.5">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+
+      <% @movies.each do |movie| %>
+        <div class="relative overflow-hidden">
+          <%= image_tag movie[:poster], class: "w-full object-cover" %>
+          <div class="absolute bottom-0 w-full bg-black/30 text-white text-center font-bold p-2">
+            <%= movie[:title]%> 
+
+          </div>
+
+        </div>
+        
+        
+      <% end %>
+
+    </div>
+    
 
   </div>
 

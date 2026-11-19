@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # "controller#action"
   root "home#index"
+  resources :movies, only: [ :show ]
 end
