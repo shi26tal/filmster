@@ -66,3 +66,8 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+
+gem "bcrypt"
+
+gem "simple_form", "~> 5.4"

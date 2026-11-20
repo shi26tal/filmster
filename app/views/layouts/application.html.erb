@@ -25,6 +25,20 @@
 
   <body>
     <%= render 'shared/navbar'%>
+    <%# this is for notice %>
+      <% if flash[:notice] %>
+        <p class="text-green-600 text-center mb-4">
+          <%= flash[:notice] %>
+        </p>
+      <% end %>
+
+    <%# application layout is shared among all the pages so jun page ma gaye pani yoh flash alret dekhxa %>
+    <%# this is for alert %>
+      <% if flash[:alert] %>
+        <p class="text-red-600 text-center mb-4">
+          <%= flash[:alert] %>
+        </p>
+      <% end %>
     <main class="max-w-6xl mx-auto mt-5 px-4">
       <%= yield %>
     </main>

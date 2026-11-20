@@ -1,0 +1,19 @@
+<div class="flex flex-col items-center">
+    <h1 class="text-4xl mb-6">
+      Log In
+    </h1>
+  
+  <div>
+    <%= simple_form_for :session, url: sessions_path do |f| %>
+     <%# during login, not creating a new User record %>
+    <%# :session - submitting credentials to session controller %> 
+     <%# url: sessions_path tells the form to submit to POST /sessions %>
+
+    <div class="mb-4"><%= f.input :email, input_html: { class: "w-full border border-[#ccc]  rounded-md p-2" } %></div>
+    <div class="mb-4"><%= f.input :password, input_html: { class: "w-full border border-[#ccc]  rounded-md p-2" } %></div>
+    <div class="w-fit"><%= f.button :submit, "Log In" , class: " bg-[#d9534f]
+      text-white py-2 px-5 rounded-md hover:bg-[#d43f3a]" %></div>
+
+    <% end %>
+  </div>
+</div>

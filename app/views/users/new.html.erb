@@ -1,0 +1,39 @@
+<div class="flex flex-col items-center">
+  <h1 class="text-4xl mb-6">Sign Up</h1>
+  <%# this checks whether there are validation errors %> <% if @user.errors.any?
+  %>
+  <div class="text-red-600 mb-4">
+    <%# gives readable error message %> <% @user.errors.full_messages.each do
+    |message| %> <%# displays it on page %>
+    <p><%= message %></p>
+    <% end %>
+  </div>
+  <% end %>
+
+  <div>
+    <%= simple_form_for @user do |f| %>
+    <div class="mb-4">
+      <%= f.input :name, input_html: { class: "w-full border border-[#ccc] rounded-md p-2" }
+      %>
+    </div>
+    <div class="mb-4">
+      <%= f.input :email, input_html: { class: "w-full border border-[#ccc]  rounded-md p-2" }
+      %>
+    </div>
+    <div class="mb-4">
+      <%= f.input :password, input_html: { class: "w-full border border-[#ccc]  rounded-md p-2"
+      } %>
+    </div>
+
+    <div class="mb-4">
+      <%= f.input :password_confirmation, input_html: { class: "w-full border border-[#ccc] 
+      rounded-md p-2" } %>
+    </div>
+    <div class="mb-4 w-fit">
+      <%= f.button :submit, "Create Account", class: "w-full bg-blue-600
+      text-white py-2 px-2 rounded-md hover:bg-blue-700" %>
+    </div>
+
+    <% end %>
+  </div>
+</div>
