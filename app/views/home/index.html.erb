@@ -1,21 +1,20 @@
-
+<%# TMDB returns hashes with string keys %>
 
 <div class="min-h-screen bg-white grid grid-cols-1 md:grid-cols-12 gap-6">
-
-<%# find movies  and review%>
+  <%# find movies and review%>
   <div class="md:col-span-5 px-3.5">
-
     <div class="pb-5 mb-5 border-b border-[#eeeeee]">
       <h4 class="mt-5 mb-2.5 text-4xl">Find Movies</h4>
+      <%= form_with url: root_path, method: :get do |f| %>
       <div class="flex gap-6 items-center">
-        <input type="text" placeholder="Enter Movie Name" class="border border-[#ccc] rounded-md text-[#555555] px-3 py-1.5 w-full">
-        <button class="bg-[#5cb85c] border border-[#4cae4c] flex items-center gap-2 rounded-md px-3 py-2">
-          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0,0,256,256">
-          <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(5.33333,5.33333)"><path d="M20.5,6c-7.98444,0 -14.5,6.51556 -14.5,14.5c0,7.98444 6.51556,14.5 14.5,14.5c3.27316,0 6.28892,-1.10698 8.7207,-2.94922l9.36523,9.36328c0.50163,0.52248 1.24653,0.73295 1.94742,0.55024c0.70088,-0.18271 1.24823,-0.73006 1.43094,-1.43094c0.18271,-0.70088 -0.02776,-1.44578 -0.55024,-1.94742l-9.36328,-9.36523c1.84224,-2.43179 2.94922,-5.44755 2.94922,-8.7207c0,-7.98444 -6.51556,-14.5 -14.5,-14.5zM20.5,10c5.82269,0 10.5,4.67732 10.5,10.5c0,2.79571 -1.08593,5.3206 -2.85156,7.19727c-0.17187,0.12442 -0.32284,0.2754 -0.44727,0.44727c-1.87707,1.76787 -4.40346,2.85547 -7.20117,2.85547c-5.82268,0 -10.5,-4.67732 -10.5,-10.5c0,-5.82268 4.67732,-10.5 10.5,-10.5z"></path></g></g>
-          </svg>
-          <span class="text-white">Search</span>
-        </button>
+        <%# hamiley input text lekheko query url ma janxa %> 
+        <%= f.text_field :query, placeholder: "Enter Movie Name", class: "border border-[#ccc]
+        rounded-md text-[#555555] px-3 py-1.5 w-full" %> 
+        <%= f.button "Search", class: "bg-[#5cb85c] text-white border border-[#4cae4c] flex
+        items-center gap-2 rounded-md px-3 py-2" %>
       </div>
+      <% end %> 
+     
     </div>
 
     <div class="pb-5 mb-5 border-b border-[#eeeeee]">
@@ -26,38 +25,47 @@
       <p class="text-[#555555] mb-3">wow</p>
 
       <div class="text-sm text-[#777777]">
-        <a href="#" class="text-[#337ab7] hover:underline hover:text-[#1a4871]">suvek</a>
+        <a href="#" class="text-[#337ab7] hover:underline hover:text-[#1a4871]"
+          >suvek</a
+        >
         |
         <a href="#" class="text-[#337ab7] hover:underline hover:text-[#1a4871]">
           Batman: Knightfall Part 1: Knightfall
         </a>
       </div>
     </div>
-
   </div>
-
 
   <%# movies %>
+
   <div class="md:col-span-7 px-3.5">
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+    <div class="<%= params[:query].present? ? 'flex flex-col gap-6' : 'grid grid-cols-2 md:grid-cols-3 gap-4' %>" >
+      <% @movies.each do |movie| %> 
+        <% if params[:query].present? %> 
+          <div class="flex gap-4 border-b border-gray-200 pb-5">
+            <div class="w-1/3 shrink-0">
+              <%= image_tag "https://image.tmdb.org/t/p/w500#{movie["poster_path"]}", class: "w-full object-cover rounded" %>
+            </div>
 
-      <% @movies.each do |movie| %>
-        <div class="relative overflow-hidden">
-          <%= image_tag movie[:poster], class: "w-full object-cover" %>
-          <div class="absolute bottom-0 w-full bg-black/30 text-white text-center font-bold p-2">
-            <%= movie[:title]%> 
+            <div class="flex-1 min-w-0">
+              <h3 class="text-lg font-bold mb-2"><%= movie["title"] %></h3>
 
+              <p class="text-sm text-gray-600 leading-relaxed">
+                <%= movie["overview"] %>
+              </p>
+            </div>
           </div>
 
-        </div>
-        
-        
+        <% else %> 
+          <div class="relative overflow-hidden">
+            <%= image_tag "https://image.tmdb.org/t/p/w500#{movie["poster_path"]}", class: "w-full object-cover" %>
+            <div class="absolute bottom-0 w-full bg-black/30 text-white text-center font-bold p-2" >
+              <%= movie["title"] %>
+            </div>
+          </div>
+
+        <% end %> 
       <% end %>
-
     </div>
-    
-
   </div>
-
- 
 </div>

@@ -35,6 +35,10 @@ class TmdbClient
     # this sends the request
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
+
+    # this is called and ruby establish connection with server. Request server ma send huncha.
+    # Server bata response aaucha.
+    # Request complete bhayepachi connection close huncha (for the normal non-session request flow).
     response = http.request(request)
 
     # response.body gets the JSON response from TMDB.
@@ -43,6 +47,38 @@ class TmdbClient
     data = JSON.parse(response.body)
 
     # return the data
+    data
+  end
+
+  def movie_details(movie_id)
+    uri = URI("https://api.themoviedb.org/3/movie/#{movie_id}")
+
+    request = Net::HTTP::Get.new(uri)
+    request["Authorization"] = "Bearer #{Rails.application.credentials.dig(:tmdb, :access_token)}"
+    request["accept"] = "application/json"
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+
+    response = http.request(request)
+    data = JSON.parse(response.body)
+
+    data
+  end
+
+  def popular_movies
+    uri = URI("https://api.themoviedb.org/3/movie/popular")
+
+    request = Net::HTTP::Get.new(uri)
+    request["Authorization"] = "Bearer #{Rails.application.credentials.dig(:tmdb, :access_token)}"
+    request["accept"] = "application/json"
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+
+    response = http.request(request)
+    data = JSON.parse(response.body)
+
     data
   end
 end
