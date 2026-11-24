@@ -30,3 +30,10 @@ class MovieSearch < ApplicationRecord
     end
   end
 end
+
+
+# Checks PostgreSQL for an existing search.
+# If found, returns cached movies.
+# If not found, fetches movies from TMDB.
+# Saves movies and their search associations.
+# Returns the movies.

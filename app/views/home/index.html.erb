@@ -17,42 +17,49 @@
      
     </div>
 
-    <div class="pb-5 mb-5 border-b border-[#eeeeee]">
-      <h6 class="text-2xl">Latest Reviews</h6>
-    </div>
-
-    <div class="mb-5 pb-5 border-b border-[#eeeeee]">
-      <p class="text-[#555555] mb-3">wow</p>
-
-      <div class="text-sm text-[#777777]">
-        <a href="#" class="text-[#337ab7] hover:underline hover:text-[#1a4871]"
-          >suvek</a
-        >
-        |
-        <a href="#" class="text-[#337ab7] hover:underline hover:text-[#1a4871]">
-          Batman: Knightfall Part 1: Knightfall
-        </a>
+    <div>
+      <div class="pb-5 mb-5 border-b border-[#eeeeee]">
+        <h6 class="text-2xl">Latest Reviews</h6>
       </div>
+
+      <% @reviews.each do |review| %>
+
+        <div class="mb-5 pb-5 border-b border-[#eeeeee]">
+          <p class="text-[#555555] mb-3"><%= review.content %></p>
+
+          <div class="text-sm text-[#777777]">
+            <%= link_to review.user.name, user_path(review.user), class: "text-[#337ab7] hover:underline hover:text-[#1a4871]" %>
+            |
+            <%= link_to review.movie.title, movie_path(review.movie.tmdb_id), class: "text-[#337ab7] hover:underline hover:text-[#1a4871]" %>
+          </div>
+        </div>
+
+      <% end %>
     </div>
+
   </div>
 
   <%# movies %>
+
+   <%# id : PostgreSQL primary key %>
+    <%# tmdb_id : the movie's original ID from TMDB %>
 
   <div class="md:col-span-7 px-3.5">
     <div class="<%= params[:query].present? ? 'flex flex-col gap-6' : 'grid grid-cols-2 md:grid-cols-3 gap-4' %>" >
       <% @movies.each do |movie| %> 
         <% if params[:query].present? %> 
-          <%= link_to movie_path(movie["id"]) do %>
+        <%# MoviesController currently expects the TMDB ID in the URL, so we must pass movie.tmdb_id %>
+          <%= link_to movie_path(movie.tmdb_id) do %>
             <div class="flex gap-4 border-b border-gray-200 pb-5">
               <div class="w-1/2 shrink-0">
-                <%= image_tag "https://image.tmdb.org/t/p/w500#{movie["poster_path"]}", class: "w-full object-cover rounded" %>
+                <%= image_tag "https://image.tmdb.org/t/p/w500#{movie.poster_path}", class: "w-full object-cover rounded" %>
               </div>
 
               <div class="flex-1 min-w-0">
-                <h3 class="text-lg font-bold mb-2"><%= movie["title"] %></h3>
+                <h3 class="text-lg font-bold mb-2"><%= movie.title %></h3>
 
                 <p class="text-sm text-gray-600 leading-relaxed">
-                  <%= movie["overview"] %>
+                  <%= movie.overview %>
                 </p>
               </div>
             </div>
@@ -60,11 +67,13 @@
 
         <% else %> 
 
-          <%= link_to movie_path(movie["id"]) do %>
+       
+
+          <%= link_to movie_path(movie.tmdb_id) do %>
             <div class="relative overflow-hidden">
-              <%= image_tag "https://image.tmdb.org/t/p/w500#{movie["poster_path"]}", class: "w-full object-cover" %>
+              <%= image_tag "https://image.tmdb.org/t/p/w500#{movie.poster_path}", class: "w-full object-cover" %>
               <div class="absolute bottom-0 w-full bg-black/30 text-white text-center font-bold p-2" >
-                <%= movie["title"] %>
+                <%= movie.title %>
               </div>
             </div>
           <% end %>
@@ -74,3 +83,11 @@
     </div>
   </div>
 </div>
+
+
+<%# pahiley @movies contained TMDB Hashes so you accessed values using movie["title"].  %>
+<%#  Now search results are Active Record Movie objects so you access values using movie.title.  %>
+
+
+
+

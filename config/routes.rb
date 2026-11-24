@@ -13,9 +13,15 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # "controller#action"
   root "home#index"
-  resources :movies, only: [ :show ]
+  # reviews belong to movies
+  # POST /movies/:movie_id/reviews
+  resources :movies, only: [ :show ] do
+    resources :reviews, only: [ :create ]
+  end
   resources :users, only: [ :new, :create, :show ]
   resources :sessions, only: [ :new, :create, :destroy ]
+
+
 
   get "signup", to: "users#new", as: "signup"
   get "login", to: "sessions#new", as: "login"

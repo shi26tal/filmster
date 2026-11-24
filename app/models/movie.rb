@@ -3,6 +3,9 @@ class Movie < ApplicationRecord
     has_many :movie_search_results
     has_many :movie_searches, through: :movie_search_results
 
+    has_many :reviews
+  # movie can also has many reviews
+
   # create a class method Because we'll call it directly on the Movie class. We don't need to create an individual Movie object before calling it.
   # saving logic
   def self.save_search_results(movies)

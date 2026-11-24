@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_23_085250) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_24_053142) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -45,7 +45,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_085250) do
     t.boolean "tmdb_details_fetched", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "genres"
+    t.float "vote_average"
+    t.integer "vote_count"
+    t.string "homepage"
     t.index ["tmdb_id"], name: "index_movies_on_tmdb_id", unique: true
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "movie_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_reviews_on_movie_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -59,4 +73,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_085250) do
 
   add_foreign_key "movie_search_results", "movie_searches"
   add_foreign_key "movie_search_results", "movies"
+  add_foreign_key "reviews", "movies"
+  add_foreign_key "reviews", "users"
 end

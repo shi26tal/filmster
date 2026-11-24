@@ -1,102 +1,114 @@
-
 <%# top section %>
 <div class="flex flex-col items-center mb-5">
-  <%# title  %>
+  <%# title %>
   <div class="mt-5 mb-2.5">
-    <h1 class="text-4xl font-bold">
-      <%= @movie["title"]%>
-    </h1>
-
+    <h1 class="text-4xl font-bold"><%= @movie.title%></h1>
   </div>
 
   <%# genre %>
   <div class="flex gap-2 mb-5">
-    <% @movie["genres"].each do |genre| %>
-      <span class="bg-[#777777] text-white px-2 py-1 rounded-md">
-        <%= genre["name"] %>
-      </span>
+    <% @movie.genres.each do |genre| %>
+    <span class="bg-[#777777] text-white px-2 py-1 rounded-md">
+      <%= genre %>
+    </span>
     <% end %>
   </div>
 
   <%# poster %>
   <div>
-    <%= image_tag "https://image.tmdb.org/t/p/w500#{@movie["poster_path"]}" ,class: "w-64 object-cover"%>
+    <%= image_tag "https://image.tmdb.org/t/p/w500#{@movie.poster_path}" ,class:
+    "w-64 object-cover"%>
   </div>
 </div>
 
 <%# lower section %>
 
 <div class="grid grid-cols-12 gap-6 border border-[#ddd] rounded-md p-4">
-
   <%# description %>
   <div class="md:col-span-6 md:p-7.5 p-4">
-    
-      <p class="mb-3">
-        <%= @movie["overview"]%>
-      </p>
+    <p class="mb-3"><%= @movie.overview%></p>
 
-     <div class="space-y-3 text-gray-700">
-
+    <div class="space-y-3 text-gray-700">
       <p>
         <span class="font-semibold">Duration:</span>
-        <%= @movie["runtime"] %>
+        <%= @movie.runtime %>
       </p>
 
       <p>
         <span class="font-semibold">Released Date:</span>
-        <%= @movie["release_date"] %>
+        <%= @movie.release_date %>
       </p>
 
       <p>
         <span class="font-semibold">Popularity:</span>
-        <%= @movie["popularity"] %>
+        <%= @movie.popularity %>
       </p>
 
       <p>
         <span class="font-semibold">Budget:</span>
-        <%= @movie["revenue"]%>
+        <%= @movie.budget %>
+      </p>
+      <p>
+        <span class="font-semibold">Revenue:</span>
+        <%= @movie.revenue %>
       </p>
 
       <p>
         <span class="font-semibold">Average Vote:</span>
-        <%= @movie["vote_average"] %>
+        <%= @movie.vote_average %>
       </p>
 
       <p>
         <span class="font-semibold">Total Vote:</span>
-        <%= @movie["vote_count"] %>
+        <%= @movie.vote_count %>
       </p>
 
       <p>
         <span class="font-semibold">Website:</span>
-        <%= @movie["homepage"]%>
+        <%= @movie.homepage%>
       </p>
-
     </div>
-
-    
-
   </div>
 
   <%# right side - review %>
   <div class="md:col-span-6 p-4">
+    <h2 class="text-3xl mb-4">Reviews</h2>
 
-    <h2 class="text-3xl mb-4">
-      Reviews
-    </h2>
+<%# it gives us both review and its postion %>
+    <% @movie.reviews.each do |review| %>
+      <div class="border-y border-gray-200 py-4 px-4 mb-5">
+        <div class="flex items-center gap-20 mb-2">
+          <%# <span><%= index + 1 %>
+          <p class="text-[#337ab7] font-semibold"><%= review.user.name %></p>
 
-    <div class="border-y border-gray-200 py-4 px-4 flex justify-between items-center mb-5">
+          <p class="text-gray-700"><%= review.content %></p>
+        </div>
+      </div>
+    <% end %>
 
-      <span>1</span>
-      <h3 class="text-[#337ab7] hover:underline hover:text-[#1a4871]">
-        suvek
-      </h3>
+      <% if current_user %>
+        <%= simple_form_for Review.new,
+            # this url generate nested url /movies/27205/reviews
+            # /movies/movie.tmdb_id/reviews
 
-      <p>
-        wow
-      </p>
-    </div>
+            url: movie_reviews_path(@movie.tmdb_id),
+            method: :post do |f| %>
+
+          <%= f.input :content,
+              label: false,
+              placeholder: "Write a review...",
+              input_html: { class: "mt-2 md:max-w-[80%]" } %>
+
+          <%= f.submit "Submit Review",
+              class: "text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-sm px-5 py-2.5" %>
+        <% end %>
+      <% else %>
+        <p class="text-lg text-gray-500 mt-4">
+          Please <%= link_to "Log in", login_path, class: "text-blue-600 font-semibold hover:underline" %>
+          or 
+          <%= link_to "Sign in", signup_path, class: "text-blue-600 font-semibold hover:underline" %>
+          to write a review.
+        </p>
+      <% end %>
   </div>
-
 </div>
-
