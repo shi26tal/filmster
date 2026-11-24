@@ -1,13 +1,15 @@
 <div class="flex flex-col items-center">
   <h1 class="text-4xl mb-6">Sign Up</h1>
-  <%# this checks whether there are validation errors %> <% if @user.errors.any?
-  %>
-  <div class="text-red-600 mb-4">
-    <%# gives readable error message %> <% @user.errors.full_messages.each do
-    |message| %> <%# displays it on page %>
-    <p><%= message %></p>
-    <% end %>
-  </div>
+  <%# this checks whether there are validation errors %> 
+  <% if @user.errors.any? %>
+    <div class="text-red-600 mb-4">
+    <%# gives readable error message %> 
+    <%# validation error %>
+      <% @user.errors.full_messages.each do |message| %> 
+      <%# displays it on page %>
+        <p><%= message %></p>
+      <% end %>
+    </div>
   <% end %>
 
   <div>

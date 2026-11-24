@@ -25,6 +25,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     # unless the user is current user redirect it to root path
+    # authorization
     redirect_to root_path, alert: "You can only access your own profile" unless @user == current_user
   end
 

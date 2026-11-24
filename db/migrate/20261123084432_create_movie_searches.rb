@@ -6,6 +6,6 @@ class CreateMovieSearches < ActiveRecord::Migration[8.1]
       t.timestamps
     end
     add_index :movie_searches, :query, unique: true
-    # unique: true = prevent duplicate
+    # unique: true = prevent duplicate search records
   end
 end

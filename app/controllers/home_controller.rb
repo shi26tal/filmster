@@ -19,6 +19,8 @@ class HomeController < ApplicationController
       # save them in postgres
       Movie.save_search_results(movies)
       # retrieves the saved actiive record object using their TMDB id
+      # Find all Movie records whose tmdb_id matches any ID in this array.
+      # api bata aako movies haru sab lai map lagyo to get access of each movies and get all the movies from db
       @movies = Movie.where(tmdb_id: movies.map { |movie| movie["id"] })
 
     end
